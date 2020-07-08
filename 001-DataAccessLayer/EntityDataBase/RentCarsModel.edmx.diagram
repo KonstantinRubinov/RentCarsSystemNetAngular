@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="04964be8fc754773ab37abab6e65d22f" Name="Diagram1">
+        <EntityTypeShape EntityType="RentCarModel.ALLCARTYPE" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentCarModel.BRANCH" Width="1.5" PointX="0.75" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentCarModel.CARFORRENT" Width="1.5" PointX="5.25" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentCarModel.CAR" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentCarModel.MESSAGE" Width="1.5" PointX="5.25" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentCarModel.ROLE" Width="1.5" PointX="0.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentCarModel.USER" Width="1.5" PointX="3" PointY="2.125" IsExpanded="true" />
+        <AssociationConnector Association="RentCarModel.FK__CARS__carTypeID__1BC821DD" ManuallyRouted="false" />
+        <AssociationConnector Association="RentCarModel.FK__CARS__carBranchI__19DFD96B" ManuallyRouted="false" />
+        <AssociationConnector Association="RentCarModel.FK__CARFORREN__carNu__412EB0B6" ManuallyRouted="false" />
+        <AssociationConnector Association="RentCarModel.FK__CARFORREN__userI__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="RentCarModel.FK__MESSAGES__userID__57DD0BE4" ManuallyRouted="false" />
+        <AssociationConnector Association="RentCarModel.FK__USERS__userLevel__3F115E1A" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="RentCars.BranchService" CodeBehind="BranchService.svc.cs" %>

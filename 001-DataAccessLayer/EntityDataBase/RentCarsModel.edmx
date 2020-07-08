@@ -1,0 +1,1948 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="RentCarModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ALLCARTYPES">
+          <Key>
+            <PropertyRef Name="carTypeID" />
+          </Key>
+          <Property Name="thisCarType" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="carFirm" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="carModel" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="carDayPrice" Type="money" Nullable="false" />
+          <Property Name="carLatePrice" Type="money" Nullable="false" />
+          <Property Name="carYear" Type="int" Nullable="false" />
+          <Property Name="carGear" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="carTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BRANCHES">
+          <Key>
+            <PropertyRef Name="branchID" />
+          </Key>
+          <Property Name="branchAddress" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="branchLat" Type="float" Nullable="false" />
+          <Property Name="branchLng" Type="float" Nullable="false" />
+          <Property Name="branchName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="branchID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CARFORRENTS">
+          <Key>
+            <PropertyRef Name="rentNumber" />
+          </Key>
+          <Property Name="rentStartDate" Type="datetime" Nullable="false" />
+          <Property Name="rentEndDate" Type="datetime" Nullable="false" />
+          <Property Name="rentRealEndDate" Type="datetime" />
+          <Property Name="userID" Type="nvarchar" MaxLength="9" Nullable="false" />
+          <Property Name="carNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="rentNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CARS">
+          <Key>
+            <PropertyRef Name="carNumber" />
+          </Key>
+          <Property Name="carKm" Type="float" Nullable="false" />
+          <Property Name="carPicture" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="carInShape" Type="bit" Nullable="false" />
+          <Property Name="carAvaliable" Type="bit" Nullable="false" />
+          <Property Name="carNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="carBranchID" Type="int" Nullable="false" />
+          <Property Name="carTypeID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MESSAGES">
+          <Key>
+            <PropertyRef Name="messageID" />
+          </Key>
+          <Property Name="messageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userID" Type="nvarchar" MaxLength="9" />
+          <Property Name="userFirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="userLastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="userEmail" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="userMessage" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ROLES">
+          <Key>
+            <PropertyRef Name="userLevel" />
+          </Key>
+          <Property Name="userLevel" Type="int" Nullable="false" />
+          <Property Name="userRole" Type="nvarchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="USERS">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="nvarchar" MaxLength="9" Nullable="false" />
+          <Property Name="userFirstName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="userLastName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="userNickName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="userBirthDate" Type="datetime" />
+          <Property Name="userGender" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="userEmail" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="userPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="userPicture" Type="nvarchar" MaxLength="50" />
+          <Property Name="userLevel" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__CARFORREN__carNu__412EB0B6">
+          <End Role="CARS" Type="Self.CARS" Multiplicity="1" />
+          <End Role="CARFORRENTS" Type="Self.CARFORRENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CARS">
+              <PropertyRef Name="carNumber" />
+            </Principal>
+            <Dependent Role="CARFORRENTS">
+              <PropertyRef Name="carNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CARFORREN__userI__403A8C7D">
+          <End Role="USERS" Type="Self.USERS" Multiplicity="1" />
+          <End Role="CARFORRENTS" Type="Self.CARFORRENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USERS">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="CARFORRENTS">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CARS__carBranchI__19DFD96B">
+          <End Role="BRANCHES" Type="Self.BRANCHES" Multiplicity="1" />
+          <End Role="CARS" Type="Self.CARS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCHES">
+              <PropertyRef Name="branchID" />
+            </Principal>
+            <Dependent Role="CARS">
+              <PropertyRef Name="carBranchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CARS__carTypeID__1BC821DD">
+          <End Role="ALLCARTYPES" Type="Self.ALLCARTYPES" Multiplicity="1" />
+          <End Role="CARS" Type="Self.CARS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ALLCARTYPES">
+              <PropertyRef Name="carTypeID" />
+            </Principal>
+            <Dependent Role="CARS">
+              <PropertyRef Name="carTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MESSAGES__userID__57DD0BE4">
+          <End Role="USERS" Type="Self.USERS" Multiplicity="0..1" />
+          <End Role="MESSAGES" Type="Self.MESSAGES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USERS">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="MESSAGES">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USERS__userLevel__3F115E1A">
+          <End Role="ROLES" Type="Self.ROLES" Multiplicity="1" />
+          <End Role="USERS" Type="Self.USERS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLES">
+              <PropertyRef Name="userLevel" />
+            </Principal>
+            <Dependent Role="USERS">
+              <PropertyRef Name="userLevel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="AddBranch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="branchAddress" Type="nvarchar" Mode="In" />
+          <Parameter Name="branchLat" Type="float" Mode="In" />
+          <Parameter Name="branchLng" Type="float" Mode="In" />
+          <Parameter Name="branchName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="AddCar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="carKm" Type="float" Mode="In" />
+          <Parameter Name="carPicture" Type="nvarchar" Mode="In" />
+          <Parameter Name="carInShape" Type="bit" Mode="In" />
+          <Parameter Name="carAvaliable" Type="bit" Mode="In" />
+          <Parameter Name="carNumber" Type="nvarchar" Mode="In" />
+          <Parameter Name="carBranchID" Type="int" Mode="In" />
+          <Parameter Name="carTypeID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="AddCarForRent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rentStartDate" Type="datetime" Mode="In" />
+          <Parameter Name="rentEndDate" Type="datetime" Mode="In" />
+          <Parameter Name="rentRealEndDate" Type="datetime" Mode="In" />
+          <Parameter Name="userID" Type="nvarchar" Mode="In" />
+          <Parameter Name="carNumber" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="AddCarType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="thisCarType" Type="nvarchar" Mode="In" />
+          <Parameter Name="carFirm" Type="nvarchar" Mode="In" />
+          <Parameter Name="carModel" Type="nvarchar" Mode="In" />
+          <Parameter Name="carDayPrice" Type="money" Mode="In" />
+          <Parameter Name="carLatePrice" Type="money" Mode="In" />
+          <Parameter Name="carYear" Type="int" Mode="In" />
+          <Parameter Name="carGear" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="AddMessage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userID" Type="nvarchar" Mode="In" />
+          <Parameter Name="userFirstName" Type="nvarchar" Mode="In" />
+          <Parameter Name="userLastName" Type="nvarchar" Mode="In" />
+          <Parameter Name="userEmail" Type="nvarchar" Mode="In" />
+          <Parameter Name="userMessage" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="AddRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userLevel" Type="int" Mode="In" />
+          <Parameter Name="userRole" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="AddUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userID" Type="nvarchar" Mode="In" />
+          <Parameter Name="userFirstName" Type="nvarchar" Mode="In" />
+          <Parameter Name="userLastName" Type="nvarchar" Mode="In" />
+          <Parameter Name="userNickName" Type="nvarchar" Mode="In" />
+          <Parameter Name="userBirthDate" Type="datetime" Mode="In" />
+          <Parameter Name="userGender" Type="nvarchar" Mode="In" />
+          <Parameter Name="userEmail" Type="nvarchar" Mode="In" />
+          <Parameter Name="userPassword" Type="nvarchar" Mode="In" />
+          <Parameter Name="userPicture" Type="nvarchar" Mode="In" />
+          <Parameter Name="userLevel" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteBranch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="branchID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteCar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="carNumber" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="DeleteCarForRentByCar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="carNumber" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="DeleteCarForRentByRent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rentNumber" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteCarTypeById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="carTypeID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteCarTypeByType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="thisCarType" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="DeleteMessage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="messageID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteMessageByUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userID" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="DeleteRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userLevel" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteRoleByRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userRole" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="DeleteUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userID" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetAllBranches" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetAllBranchesNamesIds" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetAllCarImagesAndNumberOfCars" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetAllCars" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetAllCarsBySearch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="page" Type="int" Mode="In" />
+          <Parameter Name="carsNum" Type="int" Mode="In" />
+          <Parameter Name="searchText" Type="nvarchar" Mode="In" />
+          <Parameter Name="carFirm" Type="nvarchar" Mode="In" />
+          <Parameter Name="thisCarType" Type="nvarchar" Mode="In" />
+          <Parameter Name="carGear" Type="nvarchar" Mode="In" />
+          <Parameter Name="carYear" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetAllCarsForRent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetAllCarsForRentByCarNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="carNumber" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetAllCarsForRentByUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userID" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetAllCarTypes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetAllCarTypesIds" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetAllMessages" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetAllRoles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetAllUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetCarAllDataBySearch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="carNumber" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetCarDayPriceBySearch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="carNumber" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetMessagesByUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userID" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetNumberOfCarWithImage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="carPicture" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetOneBranchById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="branchID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetOneCarByNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="carNumber" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetOneCarForRentByRentNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rentNumber" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetOneCarType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="carTypeID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetOneMessageById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="messageID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetOneRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userLevel" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetOneRoleByRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userRole" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetOneUserById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userID" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetOneUserByLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userNickName" Type="nvarchar" Mode="In" />
+          <Parameter Name="userPassword" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetOneUserByName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userNickName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetOneUserForMessageById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userID" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="IsNameTaken" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userNickName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="queryUsersString" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ReturnUserByNameLevel" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userNickName" Type="nvarchar" Mode="In" />
+          <Parameter Name="userLevel" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ReturnUserByNamePassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userNickName" Type="nvarchar" Mode="In" />
+          <Parameter Name="userPassword" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="ReturnUserIdByUserPass" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userPassword" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="UpdateBranch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="branchAddress" Type="nvarchar" Mode="In" />
+          <Parameter Name="branchLat" Type="float" Mode="In" />
+          <Parameter Name="branchLng" Type="float" Mode="In" />
+          <Parameter Name="branchName" Type="nvarchar" Mode="In" />
+          <Parameter Name="branchID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateCar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="carKm" Type="float" Mode="In" />
+          <Parameter Name="carPicture" Type="nvarchar" Mode="In" />
+          <Parameter Name="carInShape" Type="bit" Mode="In" />
+          <Parameter Name="carAvaliable" Type="bit" Mode="In" />
+          <Parameter Name="carNumber" Type="nvarchar" Mode="In" />
+          <Parameter Name="carBranchID" Type="int" Mode="In" />
+          <Parameter Name="carTypeID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateCarForRent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rentStartDate" Type="datetime" Mode="In" />
+          <Parameter Name="rentEndDate" Type="datetime" Mode="In" />
+          <Parameter Name="rentRealEndDate" Type="datetime" Mode="In" />
+          <Parameter Name="userID" Type="nvarchar" Mode="In" />
+          <Parameter Name="carNumber" Type="nvarchar" Mode="In" />
+          <Parameter Name="rentNumber" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateCarType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="thisCarType" Type="nvarchar" Mode="In" />
+          <Parameter Name="carFirm" Type="nvarchar" Mode="In" />
+          <Parameter Name="carModel" Type="nvarchar" Mode="In" />
+          <Parameter Name="carDayPrice" Type="money" Mode="In" />
+          <Parameter Name="carLatePrice" Type="money" Mode="In" />
+          <Parameter Name="carYear" Type="int" Mode="In" />
+          <Parameter Name="carGear" Type="nvarchar" Mode="In" />
+          <Parameter Name="carTypeID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateMessage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="messageID" Type="int" Mode="In" />
+          <Parameter Name="userID" Type="nvarchar" Mode="In" />
+          <Parameter Name="userFirstName" Type="nvarchar" Mode="In" />
+          <Parameter Name="userLastName" Type="nvarchar" Mode="In" />
+          <Parameter Name="userEmail" Type="nvarchar" Mode="In" />
+          <Parameter Name="userMessage" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="UpdateRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userLevel" Type="int" Mode="In" />
+          <Parameter Name="userRole" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="UpdateUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userID" Type="nvarchar" Mode="In" />
+          <Parameter Name="userFirstName" Type="nvarchar" Mode="In" />
+          <Parameter Name="userLastName" Type="nvarchar" Mode="In" />
+          <Parameter Name="userNickName" Type="nvarchar" Mode="In" />
+          <Parameter Name="userBirthDate" Type="datetime" Mode="In" />
+          <Parameter Name="userGender" Type="nvarchar" Mode="In" />
+          <Parameter Name="userEmail" Type="nvarchar" Mode="In" />
+          <Parameter Name="userPassword" Type="nvarchar" Mode="In" />
+          <Parameter Name="userPicture" Type="nvarchar" Mode="In" />
+          <Parameter Name="userLevel" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UploadUserImage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userID" Type="nvarchar" Mode="In" />
+          <Parameter Name="userPicture" Type="nvarchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="RentCarModelStoreContainer">
+          <EntitySet Name="ALLCARTYPES" EntityType="Self.ALLCARTYPES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BRANCHES" EntityType="Self.BRANCHES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CARFORRENTS" EntityType="Self.CARFORRENTS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CARS" EntityType="Self.CARS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MESSAGES" EntityType="Self.MESSAGES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ROLES" EntityType="Self.ROLES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USERS" EntityType="Self.USERS" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__CARFORREN__carNu__412EB0B6" Association="Self.FK__CARFORREN__carNu__412EB0B6">
+            <End Role="CARS" EntitySet="CARS" />
+            <End Role="CARFORRENTS" EntitySet="CARFORRENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CARFORREN__userI__403A8C7D" Association="Self.FK__CARFORREN__userI__403A8C7D">
+            <End Role="USERS" EntitySet="USERS" />
+            <End Role="CARFORRENTS" EntitySet="CARFORRENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CARS__carBranchI__19DFD96B" Association="Self.FK__CARS__carBranchI__19DFD96B">
+            <End Role="BRANCHES" EntitySet="BRANCHES" />
+            <End Role="CARS" EntitySet="CARS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CARS__carTypeID__1BC821DD" Association="Self.FK__CARS__carTypeID__1BC821DD">
+            <End Role="ALLCARTYPES" EntitySet="ALLCARTYPES" />
+            <End Role="CARS" EntitySet="CARS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MESSAGES__userID__57DD0BE4" Association="Self.FK__MESSAGES__userID__57DD0BE4">
+            <End Role="USERS" EntitySet="USERS" />
+            <End Role="MESSAGES" EntitySet="MESSAGES" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USERS__userLevel__3F115E1A" Association="Self.FK__USERS__userLevel__3F115E1A">
+            <End Role="ROLES" EntitySet="ROLES" />
+            <End Role="USERS" EntitySet="USERS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RentCarModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ALLCARTYPE">
+          <Key>
+            <PropertyRef Name="carTypeID" />
+          </Key>
+          <Property Name="thisCarType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="carFirm" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="carModel" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="carDayPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="carLatePrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="carYear" Type="Int32" Nullable="false" />
+          <Property Name="carGear" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="carTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="CARS" Relationship="Self.FK__CARS__carTypeID__1BC821DD" FromRole="ALLCARTYPES" ToRole="CARS" />
+        </EntityType>
+        <EntityType Name="BRANCH">
+          <Key>
+            <PropertyRef Name="branchID" />
+          </Key>
+          <Property Name="branchAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="branchLat" Type="Double" Nullable="false" />
+          <Property Name="branchLng" Type="Double" Nullable="false" />
+          <Property Name="branchName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="branchID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="CARS" Relationship="Self.FK__CARS__carBranchI__19DFD96B" FromRole="BRANCHES" ToRole="CARS" />
+        </EntityType>
+        <EntityType Name="CARFORRENT">
+          <Key>
+            <PropertyRef Name="rentNumber" />
+          </Key>
+          <Property Name="rentStartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="rentEndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="rentRealEndDate" Type="DateTime" Precision="3" />
+          <Property Name="userID" Type="String" MaxLength="9" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="carNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="rentNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="CAR" Relationship="Self.FK__CARFORREN__carNu__412EB0B6" FromRole="CARFORRENTS" ToRole="CARS" />
+          <NavigationProperty Name="USER" Relationship="Self.FK__CARFORREN__userI__403A8C7D" FromRole="CARFORRENTS" ToRole="USERS" />
+        </EntityType>
+        <EntityType Name="CAR">
+          <Key>
+            <PropertyRef Name="carNumber" />
+          </Key>
+          <Property Name="carKm" Type="Double" Nullable="false" />
+          <Property Name="carPicture" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="carInShape" Type="Boolean" Nullable="false" />
+          <Property Name="carAvaliable" Type="Boolean" Nullable="false" />
+          <Property Name="carNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="carBranchID" Type="Int32" Nullable="false" />
+          <Property Name="carTypeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ALLCARTYPE" Relationship="Self.FK__CARS__carTypeID__1BC821DD" FromRole="CARS" ToRole="ALLCARTYPES" />
+          <NavigationProperty Name="BRANCH" Relationship="Self.FK__CARS__carBranchI__19DFD96B" FromRole="CARS" ToRole="BRANCHES" />
+          <NavigationProperty Name="CARFORRENTS" Relationship="Self.FK__CARFORREN__carNu__412EB0B6" FromRole="CARS" ToRole="CARFORRENTS" />
+        </EntityType>
+        <EntityType Name="MESSAGE">
+          <Key>
+            <PropertyRef Name="messageID" />
+          </Key>
+          <Property Name="messageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userID" Type="String" MaxLength="9" FixedLength="false" Unicode="true" />
+          <Property Name="userFirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="userLastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="userEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="userMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="USER" Relationship="Self.FK__MESSAGES__userID__57DD0BE4" FromRole="MESSAGES" ToRole="USERS" />
+        </EntityType>
+        <EntityType Name="ROLE">
+          <Key>
+            <PropertyRef Name="userLevel" />
+          </Key>
+          <Property Name="userLevel" Type="Int32" Nullable="false" />
+          <Property Name="userRole" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="USERS" Relationship="Self.FK__USERS__userLevel__3F115E1A" FromRole="ROLES" ToRole="USERS" />
+        </EntityType>
+        <EntityType Name="USER">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="String" MaxLength="9" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="userFirstName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="userLastName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="userNickName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="userBirthDate" Type="DateTime" Precision="3" />
+          <Property Name="userGender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="userEmail" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="userPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="userPicture" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="userLevel" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CARFORRENTS" Relationship="Self.FK__CARFORREN__userI__403A8C7D" FromRole="USERS" ToRole="CARFORRENTS" />
+          <NavigationProperty Name="MESSAGES" Relationship="Self.FK__MESSAGES__userID__57DD0BE4" FromRole="USERS" ToRole="MESSAGES" />
+          <NavigationProperty Name="ROLE" Relationship="Self.FK__USERS__userLevel__3F115E1A" FromRole="USERS" ToRole="ROLES" />
+        </EntityType>
+        <Association Name="FK__CARS__carTypeID__1BC821DD">
+          <End Role="ALLCARTYPES" Type="Self.ALLCARTYPE" Multiplicity="1" />
+          <End Role="CARS" Type="Self.CAR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ALLCARTYPES">
+              <PropertyRef Name="carTypeID" />
+            </Principal>
+            <Dependent Role="CARS">
+              <PropertyRef Name="carTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CARS__carBranchI__19DFD96B">
+          <End Role="BRANCHES" Type="Self.BRANCH" Multiplicity="1" />
+          <End Role="CARS" Type="Self.CAR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BRANCHES">
+              <PropertyRef Name="branchID" />
+            </Principal>
+            <Dependent Role="CARS">
+              <PropertyRef Name="carBranchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CARFORREN__carNu__412EB0B6">
+          <End Role="CARS" Type="Self.CAR" Multiplicity="1" />
+          <End Role="CARFORRENTS" Type="Self.CARFORRENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CARS">
+              <PropertyRef Name="carNumber" />
+            </Principal>
+            <Dependent Role="CARFORRENTS">
+              <PropertyRef Name="carNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CARFORREN__userI__403A8C7D">
+          <End Role="USERS" Type="Self.USER" Multiplicity="1" />
+          <End Role="CARFORRENTS" Type="Self.CARFORRENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USERS">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="CARFORRENTS">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MESSAGES__userID__57DD0BE4">
+          <End Role="USERS" Type="Self.USER" Multiplicity="0..1" />
+          <End Role="MESSAGES" Type="Self.MESSAGE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USERS">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="MESSAGES">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USERS__userLevel__3F115E1A">
+          <End Role="ROLES" Type="Self.ROLE" Multiplicity="1" />
+          <End Role="USERS" Type="Self.USER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLES">
+              <PropertyRef Name="userLevel" />
+            </Principal>
+            <Dependent Role="USERS">
+              <PropertyRef Name="userLevel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RentCarEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ALLCARTYPES" EntityType="Self.ALLCARTYPE" />
+          <EntitySet Name="BRANCHES" EntityType="Self.BRANCH" />
+          <EntitySet Name="CARFORRENTS" EntityType="Self.CARFORRENT" />
+          <EntitySet Name="CARS" EntityType="Self.CAR" />
+          <EntitySet Name="MESSAGES" EntityType="Self.MESSAGE" />
+          <EntitySet Name="ROLES" EntityType="Self.ROLE" />
+          <EntitySet Name="USERS" EntityType="Self.USER" />
+          <AssociationSet Name="FK__CARS__carTypeID__1BC821DD" Association="Self.FK__CARS__carTypeID__1BC821DD">
+            <End Role="ALLCARTYPES" EntitySet="ALLCARTYPES" />
+            <End Role="CARS" EntitySet="CARS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CARS__carBranchI__19DFD96B" Association="Self.FK__CARS__carBranchI__19DFD96B">
+            <End Role="BRANCHES" EntitySet="BRANCHES" />
+            <End Role="CARS" EntitySet="CARS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CARFORREN__carNu__412EB0B6" Association="Self.FK__CARFORREN__carNu__412EB0B6">
+            <End Role="CARS" EntitySet="CARS" />
+            <End Role="CARFORRENTS" EntitySet="CARFORRENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CARFORREN__userI__403A8C7D" Association="Self.FK__CARFORREN__userI__403A8C7D">
+            <End Role="USERS" EntitySet="USERS" />
+            <End Role="CARFORRENTS" EntitySet="CARFORRENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MESSAGES__userID__57DD0BE4" Association="Self.FK__MESSAGES__userID__57DD0BE4">
+            <End Role="USERS" EntitySet="USERS" />
+            <End Role="MESSAGES" EntitySet="MESSAGES" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USERS__userLevel__3F115E1A" Association="Self.FK__USERS__userLevel__3F115E1A">
+            <End Role="ROLES" EntitySet="ROLES" />
+            <End Role="USERS" EntitySet="USERS" />
+          </AssociationSet>
+          <FunctionImport Name="AddBranch" ReturnType="Collection(RentCarModel.AddBranch_Result)">
+            <Parameter Name="branchAddress" Mode="In" Type="String" />
+            <Parameter Name="branchLat" Mode="In" Type="Double" />
+            <Parameter Name="branchLng" Mode="In" Type="Double" />
+            <Parameter Name="branchName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="AddCar" ReturnType="Collection(RentCarModel.AddCar_Result)">
+            <Parameter Name="carKm" Mode="In" Type="Double" />
+            <Parameter Name="carPicture" Mode="In" Type="String" />
+            <Parameter Name="carInShape" Mode="In" Type="Boolean" />
+            <Parameter Name="carAvaliable" Mode="In" Type="Boolean" />
+            <Parameter Name="carNumber" Mode="In" Type="String" />
+            <Parameter Name="carBranchID" Mode="In" Type="Int32" />
+            <Parameter Name="carTypeID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AddCarForRent" ReturnType="Collection(RentCarModel.AddCarForRent_Result)">
+            <Parameter Name="rentStartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="rentEndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="rentRealEndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="userID" Mode="In" Type="String" />
+            <Parameter Name="carNumber" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="AddCarType" ReturnType="Collection(RentCarModel.AddCarType_Result)">
+            <Parameter Name="thisCarType" Mode="In" Type="String" />
+            <Parameter Name="carFirm" Mode="In" Type="String" />
+            <Parameter Name="carModel" Mode="In" Type="String" />
+            <Parameter Name="carDayPrice" Mode="In" Type="Decimal" />
+            <Parameter Name="carLatePrice" Mode="In" Type="Decimal" />
+            <Parameter Name="carYear" Mode="In" Type="Int32" />
+            <Parameter Name="carGear" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="AddMessage" ReturnType="Collection(RentCarModel.AddMessage_Result)">
+            <Parameter Name="userID" Mode="In" Type="String" />
+            <Parameter Name="userFirstName" Mode="In" Type="String" />
+            <Parameter Name="userLastName" Mode="In" Type="String" />
+            <Parameter Name="userEmail" Mode="In" Type="String" />
+            <Parameter Name="userMessage" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="AddRole" ReturnType="Collection(RentCarModel.AddRole_Result)">
+            <Parameter Name="userLevel" Mode="In" Type="Int32" />
+            <Parameter Name="userRole" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="AddUser" ReturnType="Collection(RentCarModel.AddUser_Result)">
+            <Parameter Name="userID" Mode="In" Type="String" />
+            <Parameter Name="userFirstName" Mode="In" Type="String" />
+            <Parameter Name="userLastName" Mode="In" Type="String" />
+            <Parameter Name="userNickName" Mode="In" Type="String" />
+            <Parameter Name="userBirthDate" Mode="In" Type="DateTime" />
+            <Parameter Name="userGender" Mode="In" Type="String" />
+            <Parameter Name="userEmail" Mode="In" Type="String" />
+            <Parameter Name="userPassword" Mode="In" Type="String" />
+            <Parameter Name="userPicture" Mode="In" Type="String" />
+            <Parameter Name="userLevel" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteBranch">
+            <Parameter Name="branchID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteCar" ReturnType="Collection(String)">
+            <Parameter Name="carNumber" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteCarForRentByCar">
+            <Parameter Name="carNumber" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteCarForRentByRent">
+            <Parameter Name="rentNumber" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteCarTypeById">
+            <Parameter Name="carTypeID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteCarTypeByType">
+            <Parameter Name="thisCarType" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteMessage">
+            <Parameter Name="messageID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteMessageByUser">
+            <Parameter Name="userID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteRole">
+            <Parameter Name="userLevel" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteRoleByRole">
+            <Parameter Name="userRole" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteUser">
+            <Parameter Name="userID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetAllBranches" ReturnType="Collection(RentCarModel.GetAllBranches_Result)" />
+          <FunctionImport Name="GetAllBranchesNamesIds" ReturnType="Collection(RentCarModel.GetAllBranchesNamesIds_Result)" />
+          <FunctionImport Name="GetAllCarImagesAndNumberOfCars" ReturnType="Collection(RentCarModel.GetAllCarImagesAndNumberOfCars_Result)" />
+          <FunctionImport Name="GetAllCars" ReturnType="Collection(RentCarModel.GetAllCars_Result)" />
+          <FunctionImport Name="GetAllCarsBySearch" ReturnType="Collection(RentCarModel.GetAllCarsBySearch_Result)">
+            <Parameter Name="page" Mode="In" Type="Int32" />
+            <Parameter Name="carsNum" Mode="In" Type="Int32" />
+            <Parameter Name="searchText" Mode="In" Type="String" />
+            <Parameter Name="carFirm" Mode="In" Type="String" />
+            <Parameter Name="thisCarType" Mode="In" Type="String" />
+            <Parameter Name="carGear" Mode="In" Type="String" />
+            <Parameter Name="carYear" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetAllCarsForRent" ReturnType="Collection(RentCarModel.GetAllCarsForRent_Result)" />
+          <FunctionImport Name="GetAllCarsForRentByCarNumber" ReturnType="Collection(RentCarModel.GetAllCarsForRentByCarNumber_Result)">
+            <Parameter Name="carNumber" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetAllCarsForRentByUserId" ReturnType="Collection(RentCarModel.GetAllCarsForRentByUserId_Result)">
+            <Parameter Name="userID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetAllCarTypes" ReturnType="Collection(RentCarModel.GetAllCarTypes_Result)" />
+          <FunctionImport Name="GetAllCarTypesIds" ReturnType="Collection(RentCarModel.GetAllCarTypesIds_Result)" />
+          <FunctionImport Name="GetAllMessages" ReturnType="Collection(RentCarModel.GetAllMessages_Result)" />
+          <FunctionImport Name="GetAllRoles" ReturnType="Collection(RentCarModel.GetAllRoles_Result)" />
+          <FunctionImport Name="GetAllUsers" ReturnType="Collection(RentCarModel.GetAllUsers_Result)" />
+          <FunctionImport Name="GetCarAllDataBySearch" ReturnType="Collection(RentCarModel.GetCarAllDataBySearch_Result)">
+            <Parameter Name="carNumber" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetCarDayPriceBySearch" ReturnType="Collection(Decimal)">
+            <Parameter Name="carNumber" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetMessagesByUserId" ReturnType="Collection(RentCarModel.GetMessagesByUserId_Result)">
+            <Parameter Name="userID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetNumberOfCarWithImage" ReturnType="Collection(RentCarModel.GetNumberOfCarWithImage_Result)">
+            <Parameter Name="carPicture" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetOneBranchById" ReturnType="Collection(RentCarModel.GetOneBranchById_Result)">
+            <Parameter Name="branchID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetOneCarByNumber" ReturnType="Collection(RentCarModel.GetOneCarByNumber_Result)">
+            <Parameter Name="carNumber" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetOneCarForRentByRentNumber" ReturnType="Collection(RentCarModel.GetOneCarForRentByRentNumber_Result)">
+            <Parameter Name="rentNumber" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetOneCarType" ReturnType="Collection(RentCarModel.GetOneCarType_Result)">
+            <Parameter Name="carTypeID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetOneMessageById" ReturnType="Collection(RentCarModel.GetOneMessageById_Result)">
+            <Parameter Name="messageID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetOneRole" ReturnType="Collection(RentCarModel.GetOneRole_Result)">
+            <Parameter Name="userLevel" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetOneRoleByRole" ReturnType="Collection(RentCarModel.GetOneRoleByRole_Result)">
+            <Parameter Name="userRole" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetOneUserById" ReturnType="Collection(RentCarModel.GetOneUserById_Result)">
+            <Parameter Name="userID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetOneUserByLogin" ReturnType="Collection(RentCarModel.GetOneUserByLogin_Result)">
+            <Parameter Name="userNickName" Mode="In" Type="String" />
+            <Parameter Name="userPassword" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetOneUserByName" ReturnType="Collection(RentCarModel.GetOneUserByName_Result)">
+            <Parameter Name="userNickName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetOneUserForMessageById" ReturnType="Collection(RentCarModel.GetOneUserForMessageById_Result)">
+            <Parameter Name="userID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="IsNameTaken" ReturnType="Collection(Int32)">
+            <Parameter Name="userNickName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="queryUsersString" ReturnType="Collection(RentCarModel.queryUsersString_Result)" />
+          <FunctionImport Name="ReturnUserByNameLevel" ReturnType="Collection(RentCarModel.ReturnUserByNameLevel_Result)">
+            <Parameter Name="userNickName" Mode="In" Type="String" />
+            <Parameter Name="userLevel" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ReturnUserByNamePassword" ReturnType="Collection(RentCarModel.ReturnUserByNamePassword_Result)">
+            <Parameter Name="userNickName" Mode="In" Type="String" />
+            <Parameter Name="userPassword" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ReturnUserIdByUserPass" ReturnType="Collection(String)">
+            <Parameter Name="userPassword" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateBranch" ReturnType="Collection(RentCarModel.UpdateBranch_Result)">
+            <Parameter Name="branchAddress" Mode="In" Type="String" />
+            <Parameter Name="branchLat" Mode="In" Type="Double" />
+            <Parameter Name="branchLng" Mode="In" Type="Double" />
+            <Parameter Name="branchName" Mode="In" Type="String" />
+            <Parameter Name="branchID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateCar" ReturnType="Collection(RentCarModel.UpdateCar_Result)">
+            <Parameter Name="carKm" Mode="In" Type="Double" />
+            <Parameter Name="carPicture" Mode="In" Type="String" />
+            <Parameter Name="carInShape" Mode="In" Type="Boolean" />
+            <Parameter Name="carAvaliable" Mode="In" Type="Boolean" />
+            <Parameter Name="carNumber" Mode="In" Type="String" />
+            <Parameter Name="carBranchID" Mode="In" Type="Int32" />
+            <Parameter Name="carTypeID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateCarForRent" ReturnType="Collection(RentCarModel.UpdateCarForRent_Result)">
+            <Parameter Name="rentStartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="rentEndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="rentRealEndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="userID" Mode="In" Type="String" />
+            <Parameter Name="carNumber" Mode="In" Type="String" />
+            <Parameter Name="rentNumber" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateCarType" ReturnType="Collection(RentCarModel.UpdateCarType_Result)">
+            <Parameter Name="thisCarType" Mode="In" Type="String" />
+            <Parameter Name="carFirm" Mode="In" Type="String" />
+            <Parameter Name="carModel" Mode="In" Type="String" />
+            <Parameter Name="carDayPrice" Mode="In" Type="Decimal" />
+            <Parameter Name="carLatePrice" Mode="In" Type="Decimal" />
+            <Parameter Name="carYear" Mode="In" Type="Int32" />
+            <Parameter Name="carGear" Mode="In" Type="String" />
+            <Parameter Name="carTypeID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateMessage" ReturnType="Collection(RentCarModel.UpdateMessage_Result)">
+            <Parameter Name="messageID" Mode="In" Type="Int32" />
+            <Parameter Name="userID" Mode="In" Type="String" />
+            <Parameter Name="userFirstName" Mode="In" Type="String" />
+            <Parameter Name="userLastName" Mode="In" Type="String" />
+            <Parameter Name="userEmail" Mode="In" Type="String" />
+            <Parameter Name="userMessage" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateRole" ReturnType="Collection(RentCarModel.UpdateRole_Result)">
+            <Parameter Name="userLevel" Mode="In" Type="Int32" />
+            <Parameter Name="userRole" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateUser" ReturnType="Collection(RentCarModel.UpdateUser_Result)">
+            <Parameter Name="userID" Mode="In" Type="String" />
+            <Parameter Name="userFirstName" Mode="In" Type="String" />
+            <Parameter Name="userLastName" Mode="In" Type="String" />
+            <Parameter Name="userNickName" Mode="In" Type="String" />
+            <Parameter Name="userBirthDate" Mode="In" Type="DateTime" />
+            <Parameter Name="userGender" Mode="In" Type="String" />
+            <Parameter Name="userEmail" Mode="In" Type="String" />
+            <Parameter Name="userPassword" Mode="In" Type="String" />
+            <Parameter Name="userPicture" Mode="In" Type="String" />
+            <Parameter Name="userLevel" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UploadUserImage" ReturnType="Collection(RentCarModel.UploadUserImage_Result)">
+            <Parameter Name="userID" Mode="In" Type="String" />
+            <Parameter Name="userPicture" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="AddBranch_Result">
+          <Property Type="String" Name="branchAddress" Nullable="false" MaxLength="50" />
+          <Property Type="Double" Name="branchLat" Nullable="false" />
+          <Property Type="Double" Name="branchLng" Nullable="false" />
+          <Property Type="String" Name="branchName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="branchID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="AddCar_Result">
+          <Property Type="Double" Name="carKm" Nullable="false" />
+          <Property Type="String" Name="carPicture" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="carInShape" Nullable="false" />
+          <Property Type="Boolean" Name="carAvaliable" Nullable="false" />
+          <Property Type="String" Name="carNumber" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="carBranchID" Nullable="false" />
+          <Property Type="Int32" Name="carTypeID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="AddCarForRent_Result">
+          <Property Type="DateTime" Name="rentStartDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="rentEndDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="rentRealEndDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="userID" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="carNumber" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="rentNumber" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="AddCarType_Result">
+          <Property Type="String" Name="thisCarType" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="carFirm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="carModel" Nullable="false" MaxLength="30" />
+          <Property Type="Decimal" Name="carDayPrice" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="carLatePrice" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="carYear" Nullable="false" />
+          <Property Type="String" Name="carGear" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="carTypeID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="AddMessage_Result">
+          <Property Type="Int32" Name="messageID" Nullable="false" />
+          <Property Type="String" Name="userID" Nullable="true" MaxLength="9" />
+          <Property Type="String" Name="userFirstName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userLastName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userEmail" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userMessage" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="AddRole_Result">
+          <Property Type="Int32" Name="userLevel" Nullable="false" />
+          <Property Type="String" Name="userRole" Nullable="false" MaxLength="15" />
+        </ComplexType>
+        <ComplexType Name="AddUser_Result">
+          <Property Type="String" Name="userID" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="userFirstName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="userLastName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="userNickName" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="userBirthDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="userGender" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="userEmail" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="userPassword" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userPicture" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="userLevel" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetAllBranches_Result">
+          <Property Type="String" Name="branchAddress" Nullable="false" MaxLength="50" />
+          <Property Type="Double" Name="branchLat" Nullable="false" />
+          <Property Type="Double" Name="branchLng" Nullable="false" />
+          <Property Type="String" Name="branchName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="branchID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetAllBranchesNamesIds_Result">
+          <Property Type="Int32" Name="branchID" Nullable="false" />
+          <Property Type="String" Name="branchName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="GetAllCarImagesAndNumberOfCars_Result">
+          <Property Type="String" Name="carPicture" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Column1" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetAllCars_Result">
+          <Property Type="Double" Name="carKm" Nullable="false" />
+          <Property Type="String" Name="carPicture" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="carInShape" Nullable="false" />
+          <Property Type="Boolean" Name="carAvaliable" Nullable="false" />
+          <Property Type="String" Name="carNumber" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="carBranchID" Nullable="false" />
+          <Property Type="Int32" Name="carTypeID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetAllCarsBySearch_Result">
+          <Property Type="String" Name="carNumber" Nullable="false" MaxLength="50" />
+          <Property Type="Double" Name="carKm" Nullable="false" />
+          <Property Type="String" Name="carPicture" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="carInShape" Nullable="false" />
+          <Property Type="Boolean" Name="carAvaliable" Nullable="false" />
+          <Property Type="Int32" Name="carBranchID" Nullable="false" />
+          <Property Type="String" Name="thisCarType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="carFirm" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="carModel" Nullable="true" MaxLength="30" />
+          <Property Type="Decimal" Name="carDayPrice" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="carLatePrice" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="carYear" Nullable="true" />
+          <Property Type="String" Name="carGear" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="branchName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="branchAddress" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="branchLat" Nullable="true" />
+          <Property Type="Double" Name="branchLng" Nullable="true" />
+          <Property Type="Int32" Name="TotalRows" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetAllCarsForRent_Result">
+          <Property Type="DateTime" Name="rentStartDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="rentEndDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="rentRealEndDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="userID" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="carNumber" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="rentNumber" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetAllCarsForRentByCarNumber_Result">
+          <Property Type="DateTime" Name="rentStartDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="rentEndDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="rentRealEndDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="userID" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="carNumber" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="rentNumber" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetAllCarsForRentByUserId_Result">
+          <Property Type="String" Name="carNumber" Nullable="false" MaxLength="50" />
+          <Property Type="Double" Name="carKm" Nullable="false" />
+          <Property Type="String" Name="carPicture" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="carInShape" Nullable="false" />
+          <Property Type="Boolean" Name="carAvaliable" Nullable="false" />
+          <Property Type="Int32" Name="carBranchID" Nullable="false" />
+          <Property Type="String" Name="thisCarType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="carFirm" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="carModel" Nullable="true" MaxLength="30" />
+          <Property Type="Decimal" Name="carDayPrice" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="carLatePrice" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="carYear" Nullable="true" />
+          <Property Type="String" Name="carGear" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="branchName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="branchAddress" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="branchLat" Nullable="true" />
+          <Property Type="Double" Name="branchLng" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetAllCarTypes_Result">
+          <Property Type="String" Name="thisCarType" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="carFirm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="carModel" Nullable="false" MaxLength="30" />
+          <Property Type="Decimal" Name="carDayPrice" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="carLatePrice" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="carYear" Nullable="false" />
+          <Property Type="String" Name="carGear" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="carTypeID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetAllCarTypesIds_Result">
+          <Property Type="Int32" Name="carTypeID" Nullable="false" />
+          <Property Type="String" Name="thisCarType" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="GetAllMessages_Result">
+          <Property Type="Int32" Name="messageID" Nullable="false" />
+          <Property Type="String" Name="userID" Nullable="true" MaxLength="9" />
+          <Property Type="String" Name="userFirstName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userLastName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userEmail" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userMessage" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetAllRoles_Result">
+          <Property Type="Int32" Name="userLevel" Nullable="false" />
+          <Property Type="String" Name="userRole" Nullable="false" MaxLength="15" />
+        </ComplexType>
+        <ComplexType Name="GetAllUsers_Result">
+          <Property Type="String" Name="userID" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="userFirstName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="userLastName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="userNickName" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="userBirthDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="userGender" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="userEmail" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="userPassword" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userPicture" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="userLevel" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetCarAllDataBySearch_Result">
+          <Property Type="String" Name="carNumber" Nullable="false" MaxLength="50" />
+          <Property Type="Double" Name="carKm" Nullable="false" />
+          <Property Type="String" Name="carPicture" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="carInShape" Nullable="false" />
+          <Property Type="Boolean" Name="carAvaliable" Nullable="false" />
+          <Property Type="Int32" Name="carBranchID" Nullable="false" />
+          <Property Type="String" Name="thisCarType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="carFirm" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="carModel" Nullable="true" MaxLength="30" />
+          <Property Type="Decimal" Name="carDayPrice" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="carLatePrice" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="carYear" Nullable="true" />
+          <Property Type="String" Name="carGear" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="branchName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="branchAddress" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="branchLat" Nullable="true" />
+          <Property Type="Double" Name="branchLng" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetMessagesByUserId_Result">
+          <Property Type="Int32" Name="messageID" Nullable="false" />
+          <Property Type="String" Name="userID" Nullable="true" MaxLength="9" />
+          <Property Type="String" Name="userFirstName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userLastName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userEmail" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userMessage" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetNumberOfCarWithImage_Result">
+          <Property Type="String" Name="carPicture" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Column1" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetOneBranchById_Result">
+          <Property Type="String" Name="branchAddress" Nullable="false" MaxLength="50" />
+          <Property Type="Double" Name="branchLat" Nullable="false" />
+          <Property Type="Double" Name="branchLng" Nullable="false" />
+          <Property Type="String" Name="branchName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="branchID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetOneCarByNumber_Result">
+          <Property Type="Double" Name="carKm" Nullable="false" />
+          <Property Type="String" Name="carPicture" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="carInShape" Nullable="false" />
+          <Property Type="Boolean" Name="carAvaliable" Nullable="false" />
+          <Property Type="String" Name="carNumber" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="carBranchID" Nullable="false" />
+          <Property Type="Int32" Name="carTypeID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetOneCarForRentByRentNumber_Result">
+          <Property Type="DateTime" Name="rentStartDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="rentEndDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="rentRealEndDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="userID" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="carNumber" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="rentNumber" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetOneCarType_Result">
+          <Property Type="String" Name="thisCarType" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="carFirm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="carModel" Nullable="false" MaxLength="30" />
+          <Property Type="Decimal" Name="carDayPrice" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="carLatePrice" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="carYear" Nullable="false" />
+          <Property Type="String" Name="carGear" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="carTypeID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetOneMessageById_Result">
+          <Property Type="Int32" Name="messageID" Nullable="false" />
+          <Property Type="String" Name="userID" Nullable="true" MaxLength="9" />
+          <Property Type="String" Name="userFirstName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userLastName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userEmail" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userMessage" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetOneRole_Result">
+          <Property Type="Int32" Name="userLevel" Nullable="false" />
+          <Property Type="String" Name="userRole" Nullable="false" MaxLength="15" />
+        </ComplexType>
+        <ComplexType Name="GetOneRoleByRole_Result">
+          <Property Type="Int32" Name="userLevel" Nullable="false" />
+          <Property Type="String" Name="userRole" Nullable="false" MaxLength="15" />
+        </ComplexType>
+        <ComplexType Name="GetOneUserById_Result">
+          <Property Type="String" Name="userID" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="userFirstName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="userLastName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="userNickName" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="userBirthDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="userGender" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="userEmail" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="userPassword" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userPicture" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="userLevel" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetOneUserByLogin_Result">
+          <Property Type="String" Name="userID" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="userFirstName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="userLastName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="userNickName" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="userBirthDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="userGender" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="userEmail" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="userPassword" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userPicture" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="userLevel" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetOneUserByName_Result">
+          <Property Type="String" Name="userID" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="userFirstName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="userLastName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="userNickName" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="userBirthDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="userGender" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="userEmail" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="userPassword" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userPicture" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="userLevel" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetOneUserForMessageById_Result">
+          <Property Type="String" Name="userFirstName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="userLastName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="userEmail" Nullable="false" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="queryUsersString_Result">
+          <Property Type="String" Name="userID" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="userFirstName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="userLastName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="userNickName" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="userBirthDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="userGender" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="userEmail" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="userPassword" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userPicture" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="userLevel" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ReturnUserByNameLevel_Result">
+          <Property Type="String" Name="userNickName" Nullable="false" MaxLength="20" />
+          <Property Type="Int32" Name="userLevel" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ReturnUserByNamePassword_Result">
+          <Property Type="String" Name="userNickName" Nullable="false" MaxLength="20" />
+          <Property Type="Int32" Name="userLevel" Nullable="false" />
+          <Property Type="String" Name="userPicture" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="UpdateBranch_Result">
+          <Property Type="String" Name="branchAddress" Nullable="false" MaxLength="50" />
+          <Property Type="Double" Name="branchLat" Nullable="false" />
+          <Property Type="Double" Name="branchLng" Nullable="false" />
+          <Property Type="String" Name="branchName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="branchID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="UpdateCar_Result">
+          <Property Type="Double" Name="carKm" Nullable="false" />
+          <Property Type="String" Name="carPicture" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="carInShape" Nullable="false" />
+          <Property Type="Boolean" Name="carAvaliable" Nullable="false" />
+          <Property Type="String" Name="carNumber" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="carBranchID" Nullable="false" />
+          <Property Type="Int32" Name="carTypeID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="UpdateCarForRent_Result">
+          <Property Type="DateTime" Name="rentStartDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="rentEndDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="rentRealEndDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="userID" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="carNumber" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="rentNumber" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="UpdateCarType_Result">
+          <Property Type="String" Name="thisCarType" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="carFirm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="carModel" Nullable="false" MaxLength="30" />
+          <Property Type="Decimal" Name="carDayPrice" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="carLatePrice" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="carYear" Nullable="false" />
+          <Property Type="String" Name="carGear" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="carTypeID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="UpdateMessage_Result">
+          <Property Type="Int32" Name="messageID" Nullable="false" />
+          <Property Type="String" Name="userID" Nullable="true" MaxLength="9" />
+          <Property Type="String" Name="userFirstName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userLastName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userEmail" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userMessage" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="UpdateRole_Result">
+          <Property Type="Int32" Name="userLevel" Nullable="false" />
+          <Property Type="String" Name="userRole" Nullable="false" MaxLength="15" />
+        </ComplexType>
+        <ComplexType Name="UpdateUser_Result">
+          <Property Type="String" Name="userID" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="userFirstName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="userLastName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="userNickName" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="userBirthDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="userGender" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="userEmail" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="userPassword" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userPicture" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="userLevel" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="UploadUserImage_Result">
+          <Property Type="String" Name="userID" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="userFirstName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="userLastName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="userNickName" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="userBirthDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="userGender" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="userEmail" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="userPassword" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="userPicture" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="userLevel" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RentCarModelStoreContainer" CdmEntityContainer="RentCarEntities">
+          <EntitySetMapping Name="ALLCARTYPES">
+            <EntityTypeMapping TypeName="RentCarModel.ALLCARTYPE">
+              <MappingFragment StoreEntitySet="ALLCARTYPES">
+                <ScalarProperty Name="thisCarType" ColumnName="thisCarType" />
+                <ScalarProperty Name="carFirm" ColumnName="carFirm" />
+                <ScalarProperty Name="carModel" ColumnName="carModel" />
+                <ScalarProperty Name="carDayPrice" ColumnName="carDayPrice" />
+                <ScalarProperty Name="carLatePrice" ColumnName="carLatePrice" />
+                <ScalarProperty Name="carYear" ColumnName="carYear" />
+                <ScalarProperty Name="carGear" ColumnName="carGear" />
+                <ScalarProperty Name="carTypeID" ColumnName="carTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BRANCHES">
+            <EntityTypeMapping TypeName="RentCarModel.BRANCH">
+              <MappingFragment StoreEntitySet="BRANCHES">
+                <ScalarProperty Name="branchAddress" ColumnName="branchAddress" />
+                <ScalarProperty Name="branchLat" ColumnName="branchLat" />
+                <ScalarProperty Name="branchLng" ColumnName="branchLng" />
+                <ScalarProperty Name="branchName" ColumnName="branchName" />
+                <ScalarProperty Name="branchID" ColumnName="branchID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CARFORRENTS">
+            <EntityTypeMapping TypeName="RentCarModel.CARFORRENT">
+              <MappingFragment StoreEntitySet="CARFORRENTS">
+                <ScalarProperty Name="rentStartDate" ColumnName="rentStartDate" />
+                <ScalarProperty Name="rentEndDate" ColumnName="rentEndDate" />
+                <ScalarProperty Name="rentRealEndDate" ColumnName="rentRealEndDate" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="carNumber" ColumnName="carNumber" />
+                <ScalarProperty Name="rentNumber" ColumnName="rentNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CARS">
+            <EntityTypeMapping TypeName="RentCarModel.CAR">
+              <MappingFragment StoreEntitySet="CARS">
+                <ScalarProperty Name="carKm" ColumnName="carKm" />
+                <ScalarProperty Name="carPicture" ColumnName="carPicture" />
+                <ScalarProperty Name="carInShape" ColumnName="carInShape" />
+                <ScalarProperty Name="carAvaliable" ColumnName="carAvaliable" />
+                <ScalarProperty Name="carNumber" ColumnName="carNumber" />
+                <ScalarProperty Name="carBranchID" ColumnName="carBranchID" />
+                <ScalarProperty Name="carTypeID" ColumnName="carTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MESSAGES">
+            <EntityTypeMapping TypeName="RentCarModel.MESSAGE">
+              <MappingFragment StoreEntitySet="MESSAGES">
+                <ScalarProperty Name="messageID" ColumnName="messageID" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="userFirstName" ColumnName="userFirstName" />
+                <ScalarProperty Name="userLastName" ColumnName="userLastName" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+                <ScalarProperty Name="userMessage" ColumnName="userMessage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ROLES">
+            <EntityTypeMapping TypeName="RentCarModel.ROLE">
+              <MappingFragment StoreEntitySet="ROLES">
+                <ScalarProperty Name="userLevel" ColumnName="userLevel" />
+                <ScalarProperty Name="userRole" ColumnName="userRole" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USERS">
+            <EntityTypeMapping TypeName="RentCarModel.USER">
+              <MappingFragment StoreEntitySet="USERS">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="userFirstName" ColumnName="userFirstName" />
+                <ScalarProperty Name="userLastName" ColumnName="userLastName" />
+                <ScalarProperty Name="userNickName" ColumnName="userNickName" />
+                <ScalarProperty Name="userBirthDate" ColumnName="userBirthDate" />
+                <ScalarProperty Name="userGender" ColumnName="userGender" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+                <ScalarProperty Name="userPassword" ColumnName="userPassword" />
+                <ScalarProperty Name="userPicture" ColumnName="userPicture" />
+                <ScalarProperty Name="userLevel" ColumnName="userLevel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="AddBranch" FunctionName="RentCarModel.Store.AddBranch">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.AddBranch_Result">
+                <ScalarProperty Name="branchAddress" ColumnName="branchAddress" />
+                <ScalarProperty Name="branchLat" ColumnName="branchLat" />
+                <ScalarProperty Name="branchLng" ColumnName="branchLng" />
+                <ScalarProperty Name="branchName" ColumnName="branchName" />
+                <ScalarProperty Name="branchID" ColumnName="branchID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AddCar" FunctionName="RentCarModel.Store.AddCar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.AddCar_Result">
+                <ScalarProperty Name="carKm" ColumnName="carKm" />
+                <ScalarProperty Name="carPicture" ColumnName="carPicture" />
+                <ScalarProperty Name="carInShape" ColumnName="carInShape" />
+                <ScalarProperty Name="carAvaliable" ColumnName="carAvaliable" />
+                <ScalarProperty Name="carNumber" ColumnName="carNumber" />
+                <ScalarProperty Name="carBranchID" ColumnName="carBranchID" />
+                <ScalarProperty Name="carTypeID" ColumnName="carTypeID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AddCarForRent" FunctionName="RentCarModel.Store.AddCarForRent">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.AddCarForRent_Result">
+                <ScalarProperty Name="rentStartDate" ColumnName="rentStartDate" />
+                <ScalarProperty Name="rentEndDate" ColumnName="rentEndDate" />
+                <ScalarProperty Name="rentRealEndDate" ColumnName="rentRealEndDate" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="carNumber" ColumnName="carNumber" />
+                <ScalarProperty Name="rentNumber" ColumnName="rentNumber" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AddCarType" FunctionName="RentCarModel.Store.AddCarType">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.AddCarType_Result">
+                <ScalarProperty Name="thisCarType" ColumnName="thisCarType" />
+                <ScalarProperty Name="carFirm" ColumnName="carFirm" />
+                <ScalarProperty Name="carModel" ColumnName="carModel" />
+                <ScalarProperty Name="carDayPrice" ColumnName="carDayPrice" />
+                <ScalarProperty Name="carLatePrice" ColumnName="carLatePrice" />
+                <ScalarProperty Name="carYear" ColumnName="carYear" />
+                <ScalarProperty Name="carGear" ColumnName="carGear" />
+                <ScalarProperty Name="carTypeID" ColumnName="carTypeID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AddMessage" FunctionName="RentCarModel.Store.AddMessage">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.AddMessage_Result">
+                <ScalarProperty Name="messageID" ColumnName="messageID" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="userFirstName" ColumnName="userFirstName" />
+                <ScalarProperty Name="userLastName" ColumnName="userLastName" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+                <ScalarProperty Name="userMessage" ColumnName="userMessage" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AddRole" FunctionName="RentCarModel.Store.AddRole">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.AddRole_Result">
+                <ScalarProperty Name="userLevel" ColumnName="userLevel" />
+                <ScalarProperty Name="userRole" ColumnName="userRole" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AddUser" FunctionName="RentCarModel.Store.AddUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.AddUser_Result">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="userFirstName" ColumnName="userFirstName" />
+                <ScalarProperty Name="userLastName" ColumnName="userLastName" />
+                <ScalarProperty Name="userNickName" ColumnName="userNickName" />
+                <ScalarProperty Name="userBirthDate" ColumnName="userBirthDate" />
+                <ScalarProperty Name="userGender" ColumnName="userGender" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+                <ScalarProperty Name="userPassword" ColumnName="userPassword" />
+                <ScalarProperty Name="userPicture" ColumnName="userPicture" />
+                <ScalarProperty Name="userLevel" ColumnName="userLevel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="DeleteBranch" FunctionName="RentCarModel.Store.DeleteBranch" />
+          <FunctionImportMapping FunctionImportName="DeleteCar" FunctionName="RentCarModel.Store.DeleteCar" />
+          <FunctionImportMapping FunctionImportName="DeleteCarForRentByCar" FunctionName="RentCarModel.Store.DeleteCarForRentByCar" />
+          <FunctionImportMapping FunctionImportName="DeleteCarForRentByRent" FunctionName="RentCarModel.Store.DeleteCarForRentByRent" />
+          <FunctionImportMapping FunctionImportName="DeleteCarTypeById" FunctionName="RentCarModel.Store.DeleteCarTypeById" />
+          <FunctionImportMapping FunctionImportName="DeleteCarTypeByType" FunctionName="RentCarModel.Store.DeleteCarTypeByType" />
+          <FunctionImportMapping FunctionImportName="DeleteMessage" FunctionName="RentCarModel.Store.DeleteMessage" />
+          <FunctionImportMapping FunctionImportName="DeleteMessageByUser" FunctionName="RentCarModel.Store.DeleteMessageByUser" />
+          <FunctionImportMapping FunctionImportName="DeleteRole" FunctionName="RentCarModel.Store.DeleteRole" />
+          <FunctionImportMapping FunctionImportName="DeleteRoleByRole" FunctionName="RentCarModel.Store.DeleteRoleByRole" />
+          <FunctionImportMapping FunctionImportName="DeleteUser" FunctionName="RentCarModel.Store.DeleteUser" />
+          <FunctionImportMapping FunctionImportName="GetAllBranches" FunctionName="RentCarModel.Store.GetAllBranches">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetAllBranches_Result">
+                <ScalarProperty Name="branchAddress" ColumnName="branchAddress" />
+                <ScalarProperty Name="branchLat" ColumnName="branchLat" />
+                <ScalarProperty Name="branchLng" ColumnName="branchLng" />
+                <ScalarProperty Name="branchName" ColumnName="branchName" />
+                <ScalarProperty Name="branchID" ColumnName="branchID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAllBranchesNamesIds" FunctionName="RentCarModel.Store.GetAllBranchesNamesIds">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetAllBranchesNamesIds_Result">
+                <ScalarProperty Name="branchID" ColumnName="branchID" />
+                <ScalarProperty Name="branchName" ColumnName="branchName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAllCarImagesAndNumberOfCars" FunctionName="RentCarModel.Store.GetAllCarImagesAndNumberOfCars">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetAllCarImagesAndNumberOfCars_Result">
+                <ScalarProperty Name="carPicture" ColumnName="carPicture" />
+                <ScalarProperty Name="Column1" ColumnName="Column1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAllCars" FunctionName="RentCarModel.Store.GetAllCars">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetAllCars_Result">
+                <ScalarProperty Name="carKm" ColumnName="carKm" />
+                <ScalarProperty Name="carPicture" ColumnName="carPicture" />
+                <ScalarProperty Name="carInShape" ColumnName="carInShape" />
+                <ScalarProperty Name="carAvaliable" ColumnName="carAvaliable" />
+                <ScalarProperty Name="carNumber" ColumnName="carNumber" />
+                <ScalarProperty Name="carBranchID" ColumnName="carBranchID" />
+                <ScalarProperty Name="carTypeID" ColumnName="carTypeID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAllCarsBySearch" FunctionName="RentCarModel.Store.GetAllCarsBySearch">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetAllCarsBySearch_Result">
+                <ScalarProperty Name="carNumber" ColumnName="carNumber" />
+                <ScalarProperty Name="carKm" ColumnName="carKm" />
+                <ScalarProperty Name="carPicture" ColumnName="carPicture" />
+                <ScalarProperty Name="carInShape" ColumnName="carInShape" />
+                <ScalarProperty Name="carAvaliable" ColumnName="carAvaliable" />
+                <ScalarProperty Name="carBranchID" ColumnName="carBranchID" />
+                <ScalarProperty Name="thisCarType" ColumnName="thisCarType" />
+                <ScalarProperty Name="carFirm" ColumnName="carFirm" />
+                <ScalarProperty Name="carModel" ColumnName="carModel" />
+                <ScalarProperty Name="carDayPrice" ColumnName="carDayPrice" />
+                <ScalarProperty Name="carLatePrice" ColumnName="carLatePrice" />
+                <ScalarProperty Name="carYear" ColumnName="carYear" />
+                <ScalarProperty Name="carGear" ColumnName="carGear" />
+                <ScalarProperty Name="branchName" ColumnName="branchName" />
+                <ScalarProperty Name="branchAddress" ColumnName="branchAddress" />
+                <ScalarProperty Name="branchLat" ColumnName="branchLat" />
+                <ScalarProperty Name="branchLng" ColumnName="branchLng" />
+                <ScalarProperty Name="TotalRows" ColumnName="TotalRows" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAllCarsForRent" FunctionName="RentCarModel.Store.GetAllCarsForRent">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetAllCarsForRent_Result">
+                <ScalarProperty Name="rentStartDate" ColumnName="rentStartDate" />
+                <ScalarProperty Name="rentEndDate" ColumnName="rentEndDate" />
+                <ScalarProperty Name="rentRealEndDate" ColumnName="rentRealEndDate" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="carNumber" ColumnName="carNumber" />
+                <ScalarProperty Name="rentNumber" ColumnName="rentNumber" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAllCarsForRentByCarNumber" FunctionName="RentCarModel.Store.GetAllCarsForRentByCarNumber">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetAllCarsForRentByCarNumber_Result">
+                <ScalarProperty Name="rentStartDate" ColumnName="rentStartDate" />
+                <ScalarProperty Name="rentEndDate" ColumnName="rentEndDate" />
+                <ScalarProperty Name="rentRealEndDate" ColumnName="rentRealEndDate" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="carNumber" ColumnName="carNumber" />
+                <ScalarProperty Name="rentNumber" ColumnName="rentNumber" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAllCarsForRentByUserId" FunctionName="RentCarModel.Store.GetAllCarsForRentByUserId">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetAllCarsForRentByUserId_Result">
+                <ScalarProperty Name="carNumber" ColumnName="carNumber" />
+                <ScalarProperty Name="carKm" ColumnName="carKm" />
+                <ScalarProperty Name="carPicture" ColumnName="carPicture" />
+                <ScalarProperty Name="carInShape" ColumnName="carInShape" />
+                <ScalarProperty Name="carAvaliable" ColumnName="carAvaliable" />
+                <ScalarProperty Name="carBranchID" ColumnName="carBranchID" />
+                <ScalarProperty Name="thisCarType" ColumnName="thisCarType" />
+                <ScalarProperty Name="carFirm" ColumnName="carFirm" />
+                <ScalarProperty Name="carModel" ColumnName="carModel" />
+                <ScalarProperty Name="carDayPrice" ColumnName="carDayPrice" />
+                <ScalarProperty Name="carLatePrice" ColumnName="carLatePrice" />
+                <ScalarProperty Name="carYear" ColumnName="carYear" />
+                <ScalarProperty Name="carGear" ColumnName="carGear" />
+                <ScalarProperty Name="branchName" ColumnName="branchName" />
+                <ScalarProperty Name="branchAddress" ColumnName="branchAddress" />
+                <ScalarProperty Name="branchLat" ColumnName="branchLat" />
+                <ScalarProperty Name="branchLng" ColumnName="branchLng" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAllCarTypes" FunctionName="RentCarModel.Store.GetAllCarTypes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetAllCarTypes_Result">
+                <ScalarProperty Name="thisCarType" ColumnName="thisCarType" />
+                <ScalarProperty Name="carFirm" ColumnName="carFirm" />
+                <ScalarProperty Name="carModel" ColumnName="carModel" />
+                <ScalarProperty Name="carDayPrice" ColumnName="carDayPrice" />
+                <ScalarProperty Name="carLatePrice" ColumnName="carLatePrice" />
+                <ScalarProperty Name="carYear" ColumnName="carYear" />
+                <ScalarProperty Name="carGear" ColumnName="carGear" />
+                <ScalarProperty Name="carTypeID" ColumnName="carTypeID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAllCarTypesIds" FunctionName="RentCarModel.Store.GetAllCarTypesIds">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetAllCarTypesIds_Result">
+                <ScalarProperty Name="carTypeID" ColumnName="carTypeID" />
+                <ScalarProperty Name="thisCarType" ColumnName="thisCarType" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAllMessages" FunctionName="RentCarModel.Store.GetAllMessages">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetAllMessages_Result">
+                <ScalarProperty Name="messageID" ColumnName="messageID" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="userFirstName" ColumnName="userFirstName" />
+                <ScalarProperty Name="userLastName" ColumnName="userLastName" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+                <ScalarProperty Name="userMessage" ColumnName="userMessage" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAllRoles" FunctionName="RentCarModel.Store.GetAllRoles">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetAllRoles_Result">
+                <ScalarProperty Name="userLevel" ColumnName="userLevel" />
+                <ScalarProperty Name="userRole" ColumnName="userRole" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAllUsers" FunctionName="RentCarModel.Store.GetAllUsers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetAllUsers_Result">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="userFirstName" ColumnName="userFirstName" />
+                <ScalarProperty Name="userLastName" ColumnName="userLastName" />
+                <ScalarProperty Name="userNickName" ColumnName="userNickName" />
+                <ScalarProperty Name="userBirthDate" ColumnName="userBirthDate" />
+                <ScalarProperty Name="userGender" ColumnName="userGender" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+                <ScalarProperty Name="userPassword" ColumnName="userPassword" />
+                <ScalarProperty Name="userPicture" ColumnName="userPicture" />
+                <ScalarProperty Name="userLevel" ColumnName="userLevel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetCarAllDataBySearch" FunctionName="RentCarModel.Store.GetCarAllDataBySearch">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetCarAllDataBySearch_Result">
+                <ScalarProperty Name="carNumber" ColumnName="carNumber" />
+                <ScalarProperty Name="carKm" ColumnName="carKm" />
+                <ScalarProperty Name="carPicture" ColumnName="carPicture" />
+                <ScalarProperty Name="carInShape" ColumnName="carInShape" />
+                <ScalarProperty Name="carAvaliable" ColumnName="carAvaliable" />
+                <ScalarProperty Name="carBranchID" ColumnName="carBranchID" />
+                <ScalarProperty Name="thisCarType" ColumnName="thisCarType" />
+                <ScalarProperty Name="carFirm" ColumnName="carFirm" />
+                <ScalarProperty Name="carModel" ColumnName="carModel" />
+                <ScalarProperty Name="carDayPrice" ColumnName="carDayPrice" />
+                <ScalarProperty Name="carLatePrice" ColumnName="carLatePrice" />
+                <ScalarProperty Name="carYear" ColumnName="carYear" />
+                <ScalarProperty Name="carGear" ColumnName="carGear" />
+                <ScalarProperty Name="branchName" ColumnName="branchName" />
+                <ScalarProperty Name="branchAddress" ColumnName="branchAddress" />
+                <ScalarProperty Name="branchLat" ColumnName="branchLat" />
+                <ScalarProperty Name="branchLng" ColumnName="branchLng" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetCarDayPriceBySearch" FunctionName="RentCarModel.Store.GetCarDayPriceBySearch" />
+          <FunctionImportMapping FunctionImportName="GetMessagesByUserId" FunctionName="RentCarModel.Store.GetMessagesByUserId">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetMessagesByUserId_Result">
+                <ScalarProperty Name="messageID" ColumnName="messageID" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="userFirstName" ColumnName="userFirstName" />
+                <ScalarProperty Name="userLastName" ColumnName="userLastName" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+                <ScalarProperty Name="userMessage" ColumnName="userMessage" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetNumberOfCarWithImage" FunctionName="RentCarModel.Store.GetNumberOfCarWithImage">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetNumberOfCarWithImage_Result">
+                <ScalarProperty Name="carPicture" ColumnName="carPicture" />
+                <ScalarProperty Name="Column1" ColumnName="Column1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetOneBranchById" FunctionName="RentCarModel.Store.GetOneBranchById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetOneBranchById_Result">
+                <ScalarProperty Name="branchAddress" ColumnName="branchAddress" />
+                <ScalarProperty Name="branchLat" ColumnName="branchLat" />
+                <ScalarProperty Name="branchLng" ColumnName="branchLng" />
+                <ScalarProperty Name="branchName" ColumnName="branchName" />
+                <ScalarProperty Name="branchID" ColumnName="branchID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetOneCarByNumber" FunctionName="RentCarModel.Store.GetOneCarByNumber">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetOneCarByNumber_Result">
+                <ScalarProperty Name="carKm" ColumnName="carKm" />
+                <ScalarProperty Name="carPicture" ColumnName="carPicture" />
+                <ScalarProperty Name="carInShape" ColumnName="carInShape" />
+                <ScalarProperty Name="carAvaliable" ColumnName="carAvaliable" />
+                <ScalarProperty Name="carNumber" ColumnName="carNumber" />
+                <ScalarProperty Name="carBranchID" ColumnName="carBranchID" />
+                <ScalarProperty Name="carTypeID" ColumnName="carTypeID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetOneCarForRentByRentNumber" FunctionName="RentCarModel.Store.GetOneCarForRentByRentNumber">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetOneCarForRentByRentNumber_Result">
+                <ScalarProperty Name="rentStartDate" ColumnName="rentStartDate" />
+                <ScalarProperty Name="rentEndDate" ColumnName="rentEndDate" />
+                <ScalarProperty Name="rentRealEndDate" ColumnName="rentRealEndDate" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="carNumber" ColumnName="carNumber" />
+                <ScalarProperty Name="rentNumber" ColumnName="rentNumber" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetOneCarType" FunctionName="RentCarModel.Store.GetOneCarType">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetOneCarType_Result">
+                <ScalarProperty Name="thisCarType" ColumnName="thisCarType" />
+                <ScalarProperty Name="carFirm" ColumnName="carFirm" />
+                <ScalarProperty Name="carModel" ColumnName="carModel" />
+                <ScalarProperty Name="carDayPrice" ColumnName="carDayPrice" />
+                <ScalarProperty Name="carLatePrice" ColumnName="carLatePrice" />
+                <ScalarProperty Name="carYear" ColumnName="carYear" />
+                <ScalarProperty Name="carGear" ColumnName="carGear" />
+                <ScalarProperty Name="carTypeID" ColumnName="carTypeID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetOneMessageById" FunctionName="RentCarModel.Store.GetOneMessageById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetOneMessageById_Result">
+                <ScalarProperty Name="messageID" ColumnName="messageID" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="userFirstName" ColumnName="userFirstName" />
+                <ScalarProperty Name="userLastName" ColumnName="userLastName" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+                <ScalarProperty Name="userMessage" ColumnName="userMessage" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetOneRole" FunctionName="RentCarModel.Store.GetOneRole">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetOneRole_Result">
+                <ScalarProperty Name="userLevel" ColumnName="userLevel" />
+                <ScalarProperty Name="userRole" ColumnName="userRole" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetOneRoleByRole" FunctionName="RentCarModel.Store.GetOneRoleByRole">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetOneRoleByRole_Result">
+                <ScalarProperty Name="userLevel" ColumnName="userLevel" />
+                <ScalarProperty Name="userRole" ColumnName="userRole" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetOneUserById" FunctionName="RentCarModel.Store.GetOneUserById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetOneUserById_Result">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="userFirstName" ColumnName="userFirstName" />
+                <ScalarProperty Name="userLastName" ColumnName="userLastName" />
+                <ScalarProperty Name="userNickName" ColumnName="userNickName" />
+                <ScalarProperty Name="userBirthDate" ColumnName="userBirthDate" />
+                <ScalarProperty Name="userGender" ColumnName="userGender" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+                <ScalarProperty Name="userPassword" ColumnName="userPassword" />
+                <ScalarProperty Name="userPicture" ColumnName="userPicture" />
+                <ScalarProperty Name="userLevel" ColumnName="userLevel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetOneUserByLogin" FunctionName="RentCarModel.Store.GetOneUserByLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetOneUserByLogin_Result">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="userFirstName" ColumnName="userFirstName" />
+                <ScalarProperty Name="userLastName" ColumnName="userLastName" />
+                <ScalarProperty Name="userNickName" ColumnName="userNickName" />
+                <ScalarProperty Name="userBirthDate" ColumnName="userBirthDate" />
+                <ScalarProperty Name="userGender" ColumnName="userGender" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+                <ScalarProperty Name="userPassword" ColumnName="userPassword" />
+                <ScalarProperty Name="userPicture" ColumnName="userPicture" />
+                <ScalarProperty Name="userLevel" ColumnName="userLevel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetOneUserByName" FunctionName="RentCarModel.Store.GetOneUserByName">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetOneUserByName_Result">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="userFirstName" ColumnName="userFirstName" />
+                <ScalarProperty Name="userLastName" ColumnName="userLastName" />
+                <ScalarProperty Name="userNickName" ColumnName="userNickName" />
+                <ScalarProperty Name="userBirthDate" ColumnName="userBirthDate" />
+                <ScalarProperty Name="userGender" ColumnName="userGender" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+                <ScalarProperty Name="userPassword" ColumnName="userPassword" />
+                <ScalarProperty Name="userPicture" ColumnName="userPicture" />
+                <ScalarProperty Name="userLevel" ColumnName="userLevel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetOneUserForMessageById" FunctionName="RentCarModel.Store.GetOneUserForMessageById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.GetOneUserForMessageById_Result">
+                <ScalarProperty Name="userFirstName" ColumnName="userFirstName" />
+                <ScalarProperty Name="userLastName" ColumnName="userLastName" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="IsNameTaken" FunctionName="RentCarModel.Store.IsNameTaken" />
+          <FunctionImportMapping FunctionImportName="queryUsersString" FunctionName="RentCarModel.Store.queryUsersString">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.queryUsersString_Result">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="userFirstName" ColumnName="userFirstName" />
+                <ScalarProperty Name="userLastName" ColumnName="userLastName" />
+                <ScalarProperty Name="userNickName" ColumnName="userNickName" />
+                <ScalarProperty Name="userBirthDate" ColumnName="userBirthDate" />
+                <ScalarProperty Name="userGender" ColumnName="userGender" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+                <ScalarProperty Name="userPassword" ColumnName="userPassword" />
+                <ScalarProperty Name="userPicture" ColumnName="userPicture" />
+                <ScalarProperty Name="userLevel" ColumnName="userLevel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ReturnUserByNameLevel" FunctionName="RentCarModel.Store.ReturnUserByNameLevel">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.ReturnUserByNameLevel_Result">
+                <ScalarProperty Name="userNickName" ColumnName="userNickName" />
+                <ScalarProperty Name="userLevel" ColumnName="userLevel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ReturnUserByNamePassword" FunctionName="RentCarModel.Store.ReturnUserByNamePassword">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.ReturnUserByNamePassword_Result">
+                <ScalarProperty Name="userNickName" ColumnName="userNickName" />
+                <ScalarProperty Name="userLevel" ColumnName="userLevel" />
+                <ScalarProperty Name="userPicture" ColumnName="userPicture" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ReturnUserIdByUserPass" FunctionName="RentCarModel.Store.ReturnUserIdByUserPass" />
+          <FunctionImportMapping FunctionImportName="UpdateBranch" FunctionName="RentCarModel.Store.UpdateBranch">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.UpdateBranch_Result">
+                <ScalarProperty Name="branchAddress" ColumnName="branchAddress" />
+                <ScalarProperty Name="branchLat" ColumnName="branchLat" />
+                <ScalarProperty Name="branchLng" ColumnName="branchLng" />
+                <ScalarProperty Name="branchName" ColumnName="branchName" />
+                <ScalarProperty Name="branchID" ColumnName="branchID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdateCar" FunctionName="RentCarModel.Store.UpdateCar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.UpdateCar_Result">
+                <ScalarProperty Name="carKm" ColumnName="carKm" />
+                <ScalarProperty Name="carPicture" ColumnName="carPicture" />
+                <ScalarProperty Name="carInShape" ColumnName="carInShape" />
+                <ScalarProperty Name="carAvaliable" ColumnName="carAvaliable" />
+                <ScalarProperty Name="carNumber" ColumnName="carNumber" />
+                <ScalarProperty Name="carBranchID" ColumnName="carBranchID" />
+                <ScalarProperty Name="carTypeID" ColumnName="carTypeID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdateCarForRent" FunctionName="RentCarModel.Store.UpdateCarForRent">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.UpdateCarForRent_Result">
+                <ScalarProperty Name="rentStartDate" ColumnName="rentStartDate" />
+                <ScalarProperty Name="rentEndDate" ColumnName="rentEndDate" />
+                <ScalarProperty Name="rentRealEndDate" ColumnName="rentRealEndDate" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="carNumber" ColumnName="carNumber" />
+                <ScalarProperty Name="rentNumber" ColumnName="rentNumber" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdateCarType" FunctionName="RentCarModel.Store.UpdateCarType">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.UpdateCarType_Result">
+                <ScalarProperty Name="thisCarType" ColumnName="thisCarType" />
+                <ScalarProperty Name="carFirm" ColumnName="carFirm" />
+                <ScalarProperty Name="carModel" ColumnName="carModel" />
+                <ScalarProperty Name="carDayPrice" ColumnName="carDayPrice" />
+                <ScalarProperty Name="carLatePrice" ColumnName="carLatePrice" />
+                <ScalarProperty Name="carYear" ColumnName="carYear" />
+                <ScalarProperty Name="carGear" ColumnName="carGear" />
+                <ScalarProperty Name="carTypeID" ColumnName="carTypeID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdateMessage" FunctionName="RentCarModel.Store.UpdateMessage">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.UpdateMessage_Result">
+                <ScalarProperty Name="messageID" ColumnName="messageID" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="userFirstName" ColumnName="userFirstName" />
+                <ScalarProperty Name="userLastName" ColumnName="userLastName" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+                <ScalarProperty Name="userMessage" ColumnName="userMessage" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdateRole" FunctionName="RentCarModel.Store.UpdateRole">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.UpdateRole_Result">
+                <ScalarProperty Name="userLevel" ColumnName="userLevel" />
+                <ScalarProperty Name="userRole" ColumnName="userRole" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdateUser" FunctionName="RentCarModel.Store.UpdateUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.UpdateUser_Result">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="userFirstName" ColumnName="userFirstName" />
+                <ScalarProperty Name="userLastName" ColumnName="userLastName" />
+                <ScalarProperty Name="userNickName" ColumnName="userNickName" />
+                <ScalarProperty Name="userBirthDate" ColumnName="userBirthDate" />
+                <ScalarProperty Name="userGender" ColumnName="userGender" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+                <ScalarProperty Name="userPassword" ColumnName="userPassword" />
+                <ScalarProperty Name="userPicture" ColumnName="userPicture" />
+                <ScalarProperty Name="userLevel" ColumnName="userLevel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UploadUserImage" FunctionName="RentCarModel.Store.UploadUserImage">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RentCarModel.UploadUserImage_Result">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="userFirstName" ColumnName="userFirstName" />
+                <ScalarProperty Name="userLastName" ColumnName="userLastName" />
+                <ScalarProperty Name="userNickName" ColumnName="userNickName" />
+                <ScalarProperty Name="userBirthDate" ColumnName="userBirthDate" />
+                <ScalarProperty Name="userGender" ColumnName="userGender" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+                <ScalarProperty Name="userPassword" ColumnName="userPassword" />
+                <ScalarProperty Name="userPicture" ColumnName="userPicture" />
+                <ScalarProperty Name="userLevel" ColumnName="userLevel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
