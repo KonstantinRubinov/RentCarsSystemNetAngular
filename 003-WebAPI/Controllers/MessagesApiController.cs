@@ -128,12 +128,7 @@ namespace RentCars
 			try
 			{
 				int i = messagesRepository.DeleteMessage(messageId);
-				if (i > 0)
-				{
-					return Request.CreateResponse(HttpStatusCode.NoContent);
-				}
-				return Request.CreateResponse(HttpStatusCode.InternalServerError);
-
+				return Request.CreateResponse(HttpStatusCode.NoContent);
 			}
 			catch (Exception ex)
 			{
@@ -149,12 +144,7 @@ namespace RentCars
 			try
 			{
 				int i = messagesRepository.DeleteMessageByUser(userId);
-				if (i > 0)
-				{
-					return Request.CreateResponse(HttpStatusCode.NoContent);
-				}
-				return Request.CreateResponse(HttpStatusCode.InternalServerError);
-
+				return Request.CreateResponse(HttpStatusCode.NoContent);
 			}
 			catch (Exception ex)
 			{

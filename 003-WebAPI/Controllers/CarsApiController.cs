@@ -34,7 +34,6 @@ namespace RentCars
 			}
 		}
 
-
 		[HttpGet]
 		[Route("cars/{number}")]
 		public HttpResponseMessage GetOneCar(string number)
@@ -50,7 +49,6 @@ namespace RentCars
 				return Request.CreateResponse(HttpStatusCode.InternalServerError, errors);
 			}
 		}
-
 
 		[HttpPost]
 		[Route("cars")]
@@ -78,7 +76,6 @@ namespace RentCars
 			}
 		}
 
-
 		[HttpPut]
 		[Route("cars/{number}")]
 		public HttpResponseMessage UpdateCar(string number, CarModel carModel)
@@ -105,7 +102,6 @@ namespace RentCars
 				return Request.CreateResponse(HttpStatusCode.InternalServerError, errors);
 			}
 		}
-
 
 		[HttpDelete]
 		[Route("cars/{number}")]

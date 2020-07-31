@@ -51,7 +51,7 @@ namespace RentCars
 			carModel = new CarModel(0, "3a56e46b-1645-4f25-b495-4d9ef857e5e9.png", t, t, "262531");
 			AddMongoData2(branchModel, carTypeModel, carModel);
 
-			branchModel = new BranchModel("Ashkelon, AutoFix, HaPninim 19", "AutoFix", 31.664042, 34.6018696); carTypeModel = new CarTypeModel("Subaru Impreza Universal", "Subaru", "Impreza Universal", (decimal)1000.23, (decimal)123.00, 2014, "hybrid");
+			branchModel = new BranchModel("Ashkelon, AutoFix, HaPninim 19", "AutoFix", 31.664042, 34.6018696);
 			carTypeModel = new CarTypeModel("Subaru Impreza Universal", "Subaru", "Impreza Universal", (decimal)1000.23, (decimal)123.00, 2014, "hybrid");
 			carModel = new CarModel(0, "1ff043b3-10eb-49eb-84ed-5c08d17759de.png", t, t, "25156485");
 			AddMongoData2(branchModel, carTypeModel, carModel);
@@ -61,7 +61,7 @@ namespace RentCars
 			carModel = new CarModel(0, "0a55b13b-fdca-426f-b080-5b808189d469.png", t, t, "14785658");
 			AddMongoData2(branchModel, carTypeModel, carModel);
 
-			branchModel = new BranchModel("Tel Aviv, Sharona Center, Nitham Sharona", "Sharona Center", 32.0724094, 34.7953738); carTypeModel = new CarTypeModel("Kia Sportage Universal", "Kia", "Sportage Universal", (decimal)895.36, (decimal)125.00, 2011, "automatic");
+			branchModel = new BranchModel("Tel Aviv, Sharona Center, Nitham Sharona", "Sharona Center", 32.0724094, 34.7953738);
 			carTypeModel = new CarTypeModel("Kia Sportage Universal", "Kia", "Sportage Universal", (decimal)895.36, (decimal)125.00, 2011, "automatic");
 			carModel = new CarModel(0, "1bbf1ca1-611f-4425-b147-80c705e2e8e4.png", t, t, "845742");
 			AddMongoData2(branchModel, carTypeModel, carModel);
