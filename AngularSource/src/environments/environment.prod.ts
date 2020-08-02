@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  core:false
+  core:true
 };
 
 export const mainUrl="http://localhost:51083/";
