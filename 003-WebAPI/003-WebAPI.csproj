@@ -175,6 +175,7 @@
     </Compile>
     <Compile Include="Helper\Errors.cs" />
     <Compile Include="Helper\ErrorsHelper.cs" />
+    <Compile Include="Middleware\RequestResponseLoggingMiddleware.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
